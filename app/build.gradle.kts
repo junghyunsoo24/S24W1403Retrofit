@@ -50,6 +50,10 @@ android {
 }
 
 dependencies {
+    // NOTE: AsyncImage 사용하기 위해 추가
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
     // NOTE: Retrofit 사용하기 위해 추가
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
