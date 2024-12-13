@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -27,10 +29,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -80,10 +85,14 @@ fun SongList(list: List<Song>, modifier: Modifier) {
 
 @Composable
 fun SongItem(song: Song) {
+    var (expanded, setExpanded) = remember { mutableStateOf(false) }
     Card(
+        modifier = Modifier
+            .clickable {
+                setExpanded(!expanded)
+            },
         elevation = CardDefaults.cardElevation(8.dp)
     ) {
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -109,6 +118,19 @@ fun SongItem(song: Song) {
                 TextTitle(song.title)
                 TextSinger(song.singer)
             }
+        }
+        AnimatedVisibility(
+            visible = expanded,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            song.lyrics?.let {
+                Text(
+                    it.replace("\\n","\n"),
+                    textAlign = TextAlign.Center,
+                )
+                //이스케이프 문장?
+            }
+            //if문을 써서 null이 아닐때만 처리해도 되는데 이렇게도 씀
         }
     }
 }
