@@ -50,6 +50,10 @@ android {
 }
 
 dependencies {
+    // Note: Navigation 사용하기 위해 추가
+    //implementation("androidx.navigation:navigation-compose:2.8.5")
+    implementation(libs.androidx.navigation.compose)
+
     // NOTE: AsyncImage 사용하기 위해 추가
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
